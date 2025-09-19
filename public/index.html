@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Niky's 18th • Tangled Debut</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:wght@400;500;700;900&family=Poppins:wght@300;400;500;600&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="icon" href="./lantern.svg" />
+  </head>
+  <body>
+    <div class="floating-elements"></div>
+    <div class="corners">
+      <img class="corner tl" src="./floral.svg" alt=""/>
+      <img class="corner tr" src="./floral.svg" alt=""/>
+      <img class="corner bl" src="./floral.svg" alt=""/>
+      <img class="corner br" src="./floral.svg" alt=""/>
+    </div>
+    <header class="topbar">
+      <div class="brand">
+        <img src="./lantern.svg" alt="lantern" class="brand-icon" />
+        <span id="brandTitle">Niky's 18th</span>
+      </div>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="nav">
+        <a href="#/" data-route>Home</a>
+        <a href="#/rsvp" data-route>RSVP</a>
+        <a href="#/program" data-route>Program</a>
+        <a href="#/venue" data-route>Venue</a>
+        <a href="#/roses" data-route>The Waltz of Wildflowers</a>
+        <a href="#/candles" data-route>The Circle of Light</a>
+        <a href="#/treasures" data-route>The Keepsakes of Love</a>
+      </nav>
+    </header>
+
+    <main id="app" class="container"></main>
+
+    <footer class="footer">
+      <span>Made with love • Tangled theme</span>
+      <a class="admin-link" href="./admin.html">Admin</a>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+  </html>

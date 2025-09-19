@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin • Program</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <img src="/lantern.svg" alt="lantern" class="brand-icon" />
+        <span>Admin • Program</span>
+      </div>
+      <nav class="nav">
+        <a href="/">Back to site</a>
+        <a href="/admin.html">RSVP</a>
+        <a href="/admin-settings.html">Site Settings</a>
+        <a href="/admin-participants.html">Participants</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <div class="section-title">Sign In</div>
+        <p class="subtle">Enter the admin password to edit the program.</p>
+        <form id="loginForm" class="mt-16">
+          <label for="adminKey">Password</label>
+          <input type="password" id="adminKey" placeholder="Enter admin password" />
+          <button type="submit" class="mt-16">Continue</button>
+        </form>
+      </section>
+
+      <section id="programArea" class="mt-24" style="display:none">
+        <div class="card">
+          <div class="section-title">Program Items</div>
+          <div class="mt-8">
+            <button id="addRow" class="btn">Add Row</button>
+            <button id="saveProgram" class="btn" style="margin-left:8px">Save Program</button>
+          </div>
+          <div class="mt-16" style="overflow:auto">
+            <table class="table" id="programTable">
+              <thead><tr><th style="width:120px">Time</th><th>Title</th><th>Notes</th><th style="width:60px">Actions</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Admin</span>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="/admin-program.js"></script>
+  </body>
+  </html>
+

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin • Site Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <img src="/lantern.svg" alt="lantern" class="brand-icon" />
+        <span>Admin • Site Settings</span>
+      </div>
+      <nav class="nav">
+        <a href="/">Back to site</a>
+        <a href="/admin.html">RSVP</a>
+        <a href="/admin-program.html">Program</a>
+        <a href="/admin-participants.html">Participants</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <div class="section-title">Sign In</div>
+        <p class="subtle">Enter the admin password to edit settings.</p>
+        <form id="loginForm" class="mt-16">
+          <label for="adminKey">Password</label>
+          <input type="password" id="adminKey" placeholder="Enter admin password" />
+          <button type="submit" class="mt-16">Continue</button>
+        </form>
+      </section>
+
+      <section id="settingsArea" class="mt-24" style="display:none">
+        <div class="card">
+          <div class="section-title">Site Settings</div>
+          <form id="quickSettings" class="form-grid mt-16">
+            <div class="col-span-2">
+              <label for="qsTitle">Title</label>
+              <input id="qsTitle" type="text" placeholder="Niky's 18th Birthday" />
+            </div>
+            <div class="col-span-2">
+              <label for="qsSubtitle">Subtitle</label>
+              <textarea id="qsSubtitle" rows="2" placeholder="Invitation subtitle..."></textarea>
+            </div>
+            <div>
+              <label for="qsDate">Date</label>
+              <input id="qsDate" type="text" placeholder="January 10, 2026" />
+            </div>
+            <div>
+              <label for="qsTime">Time</label>
+              <input id="qsTime" type="text" placeholder="6:00 PM" />
+            </div>
+            <div>
+              <label for="qsRsvpBy">RSVP by</label>
+              <input id="qsRsvpBy" type="text" placeholder="November 30, 2025" />
+            </div>
+            <div>
+              <label for="qsLock">RSVP lock date (ISO)</label>
+              <input id="qsLock" type="text" placeholder="2025-12-01T00:00:00Z" />
+            </div>
+            <div>
+              <label for="qsCapacity">Capacity limit</label>
+              <input id="qsCapacity" type="number" min="0" step="1" placeholder="e.g., 100" />
+            </div>
+            <div class="col-span-2">
+              <label for="qsVenueName">Venue name</label>
+              <input id="qsVenueName" type="text" placeholder="Teofely Gardens Wedding & Events Venue" />
+            </div>
+            <div class="col-span-2">
+              <label for="qsVenueAddress">Venue address</label>
+              <input id="qsVenueAddress" type="text" placeholder="Address" />
+            </div>
+            <div class="col-span-2">
+              <label for="qsMapQuery">Map query</label>
+              <input id="qsMapQuery" type="text" placeholder="Map search query" />
+            </div>
+            <div>
+              <label for="qsAttire">Attire/Theme</label>
+              <input id="qsAttire" type="text" placeholder="Whimsical Formal" />
+            </div>
+            <div>
+              <label for="qsColors">Suggested colors</label>
+              <input id="qsColors" type="text" placeholder="soft gold, lavender, sage, dusty rose" />
+            </div>
+            <div class="col-span-2">
+              <div class="subtle">Sections Visibility</div>
+              <div class="toggle-row">
+                <label><input type="checkbox" id="showRoses"> Wildflowers (Gentlemen)</label>
+                <label><input type="checkbox" id="showCandles"> Circle of Light (Ladies)</label>
+                <label><input type="checkbox" id="showTreasures"> Keepsakes of Love (Family)</label>
+              </div>
+            </div>
+            <div class="col-span-2">
+              <button id="saveQuick" type="submit">Save Settings</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Admin</span>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="/admin-settings.js"></script>
+  </body>
+  </html>

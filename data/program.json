@@ -1,0 +1,49 @@
+{
+  "items": [
+    {
+      "time": "5:00 PM",
+      "title": "Registration & Welcome Cocktails",
+      "notes": "Photo wall open"
+    },
+    {
+      "time": "6:00 PM",
+      "title": "Grand Entrance",
+      "notes": "Debutante entrance"
+    },
+    {
+      "time": "6:15 PM",
+      "title": "Opening Remarks & Prayer",
+      "notes": ""
+    },
+    {
+      "time": "6:30 PM",
+      "title": "Dinner",
+      "notes": "Buffet opens"
+    },
+    {
+      "time": "7:15 PM",
+      "title": "18 Roses",
+      "notes": "Waltz"
+    },
+    {
+      "time": "7:45 PM",
+      "title": "18 Candles",
+      "notes": "Messages & wishes"
+    },
+    {
+      "time": "8:15 PM",
+      "title": "18 Treasures",
+      "notes": "Gift giving"
+    },
+    {
+      "time": "8:45 PM",
+      "title": "Cake Cutting & Toast",
+      "notes": ""
+    },
+    {
+      "time": "9:00 PM",
+      "title": "Dance & Photo Ops",
+      "notes": "Open floor"
+    }
+  ]
+}
