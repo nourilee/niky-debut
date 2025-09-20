@@ -81,6 +81,29 @@ test('Capacity hard block with 409 if exceeding limit', async () => {
   assert.equal(res.status, 409);
 });
 
+test('RSVP stores kids count and caps at total guests', async () => {
+  const rsvpPath = path.join(__dirname, '..', 'data', 'rsvps.json');
+  try { fs.writeFileSync(rsvpPath, '[]', 'utf8'); } catch {}
+  const future = new Date(Date.now() + 3600_000).toISOString();
+  let res = await request(port, 'POST', '/api/settings', {
+    headers: { 'Content-Type': 'application/json', 'X-Admin-Key': adminKey },
+    body: JSON.stringify({ rsvpLockDate: future })
+  });
+  assert.equal(res.status, 200);
+
+  res = await request(port, 'POST', '/api/rsvp', {
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: 'Family', willAttend: true, guests: 2, kids: 5 })
+  });
+  assert.equal(res.status, 200);
+  const payload = JSON.parse(res.body);
+  assert.equal(payload.entry.kids, 2);
+
+  res = await request(port, 'GET', '/api/rsvps', { headers: { 'X-Admin-Key': adminKey } });
+  const list = JSON.parse(res.body);
+  assert.equal(list.rsvps[0].kids, 2);
+});
+
 test('Honeypot field causes RSVP to be ignored', async () => {
   const future = new Date(Date.now() + 3600_000).toISOString();
   let res = await request(port, 'POST', '/api/settings', {
@@ -103,9 +126,10 @@ function anyHidden(settings){
   return settings.showRoses === false || settings.showCandles === false || settings.showTreasures === false;
 }
 
-function badgeText(guestCount, capacity){
-  if (Number.isFinite(capacity) && capacity > 0) return `${guestCount} / ${capacity} Guests Confirmed`;
-  return `${guestCount} Guests Confirmed`;
+function badgeText(guestCount, kidCount, capacity){
+  const adultCount = Math.max(0, guestCount - kidCount);
+  if (Number.isFinite(capacity) && capacity > 0) return `Adults ${adultCount} • Kids ${kidCount} (Total ${guestCount} / ${capacity})`;
+  return `Adults ${adultCount} • Kids ${kidCount} (Total ${guestCount})`;
 }
 
 test('Program chip appears when any section hidden', async () => {
@@ -136,6 +160,7 @@ test('Admin badge shows X / limit when capacity is set', async () => {
   res = await request(port, 'GET', '/api/rsvps', { headers: { 'X-Admin-Key': adminKey } });
   const data = JSON.parse(res.body);
   const guestCount = data.rsvps.reduce((sum, r) => sum + (r.willAttend ? (r.guests||1) : 0), 0);
-  const text = badgeText(guestCount, 100);
-  assert.equal(text.endsWith(' / 100 Guests Confirmed'), true);
+  const kidCount = data.rsvps.reduce((sum, r) => sum + (r.willAttend ? Math.max(0, Math.min(r.kids || 0, r.guests || 0)) : 0), 0);
+  const text = badgeText(guestCount, kidCount, 100);
+  assert.equal(text, 'Adults 3 • Kids 0 (Total 3 / 100)');
 });

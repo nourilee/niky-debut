@@ -161,6 +161,11 @@ function handleAPI(req, res) {
         if (!Number.isFinite(guests)) guests = willAttend ? 1 : 0;
         guests = Math.max(0, Math.min(5, guests));
         if (!willAttend) guests = 0;
+        let kids = parseInt(payload.kids, 10);
+        if (!Number.isFinite(kids)) kids = 0;
+        kids = Math.max(0, Math.min(5, kids));
+        if (!willAttend) kids = 0;
+        if (kids > guests) kids = guests;
         const comments = (payload.comments || '').toString().slice(0, 1000);
         if (!name) return sendJSON(res, 400, { error: 'Name is required' });
         // Lock date
@@ -184,6 +189,7 @@ function handleAPI(req, res) {
           name,
           willAttend,
           guests,
+          kids,
           comments,
           timestamp: new Date().toISOString(),
         };
@@ -210,8 +216,15 @@ function handleAPI(req, res) {
   if (req.method === 'GET' && pathname === '/api/export') {
     if (!isAuthorized(req)) return unauthorized(res);
     const list = JSON.parse(fs.readFileSync(rsvpFile, 'utf8'));
-    const header = ['Name', 'WillAttend', 'Guests', 'Comments', 'Timestamp'];
-    const rows = list.map(r => [r.name, r.willAttend ? 'Yes' : 'No', r.guests || 0, r.comments || '', r.timestamp]);
+    const header = ['Name', 'WillAttend', 'Guests', 'Kids', 'Comments', 'Timestamp'];
+    const rows = list.map(r => [
+      r.name,
+      r.willAttend ? 'Yes' : 'No',
+      r.guests || 0,
+      r.kids || 0,
+      r.comments || '',
+      r.timestamp,
+    ]);
     const csv = [header, ...rows].map(cols => cols.map(v => '"' + String(v || '').replace(/"/g, '""') + '"').join(',')).join('\n');
     return send(res, 200, csv, {
       'Content-Type': 'text/csv; charset=utf-8',

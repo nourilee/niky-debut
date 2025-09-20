@@ -149,7 +149,7 @@ function renderHome(el){
             <div class="hero-detail">
               <h3>RSVP DEADLINE</h3>
               <p>${rsvpBy || 'November 30, 2025'}</p>
-              <p class="detail-sub">Strict RSVP only: "No RSVP, no seat"</p>
+              <p class="detail-sub">Strictly RSVP. We regret that we cannot accommodate walk-ins without an RSVP.: "No RSVP, no seat"</p>
             </div>
             <div class="hero-detail">
               <h3>THEME</h3>
@@ -245,6 +245,15 @@ function renderRSVP(el){
               <option value="4">4</option>
               <option value="5">5</option>
             </select>
+            <label for="kids" class="mt-16">Number of kids (under 12)</label>
+            <select id="kids" name="kids" class="select-wide">
+              <option value="0" selected>0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
           </div>
           <label for="comments" class="mt-16">Comments and/or questions</label>
           <textarea id="comments" name="comments" rows="3" placeholder="Optional"></textarea>
@@ -256,17 +265,20 @@ function renderRSVP(el){
             var f=document.getElementById('localRSVP'); if(!f) return;
             if (${locked ? 'true' : 'false'}) { f.style.display='none'; document.getElementById('localThanks').style.display='block'; document.getElementById('localThanks').innerHTML='<div class="warning">RSVP is now closed.</div>'; return; }
             var a=document.getElementById('willAttend'); var gw=document.getElementById('gwrap');
-            function upd(){ gw.style.display = a.value==='yes' ? 'block':'none'; }
+            function upd(){
+              var attending = a.value==='yes';
+              gw.style.display = attending ? 'block':'none';
+            }
             a.addEventListener('change', upd); upd();
             f.addEventListener('submit', function(e){ e.preventDefault();
               document.getElementById('localThanks').style.display='block';
               document.getElementById('localThanks').innerHTML = '<div class="card"><strong>Thank you!</strong> Your response has been noted.</div>';
               f.reset();
+              upd();
             });
           })();
         </script>
       `}
-      <div class="mt-16 subtle">After form submission, set the form's confirmation action to redirect to <code>${location.origin + location.pathname.replace(/index\.html?$/,'')}thankyou.html</code> for a seamless flow.</div>
     </section>
   `;
 }
@@ -333,15 +345,14 @@ function renderAdminInfo(el){
   el.innerHTML = `
     <section class="card">
       <div class="section-title">Admin</div>
-      <p class="subtle">This static site is hosted on GitHub Pages. Edit content via GitHub and view RSVPs in your connected sheet.</p>
+      <p class="subtle">Sign in with the admin password to view RSVP submissions collected on this site.</p>
       <ul class="mt-16">
-        <li>Update site details: edit <code>docs/data/settings.json</code></li>
-        <li>Edit Program: <code>docs/data/program.json</code></li>
-        <li>Edit 18s lists: <code>docs/data/participants.json</code></li>
-        <li>RSVPs collected via Google Forms → Google Sheets</li>
+        <li>Manage event copy from the Site Settings page.</li>
+        <li>Update the program and 18s lists from their admin pages.</li>
+        <li>Download the latest RSVPs as a CSV once unlocked.</li>
       </ul>
       <div class="mt-16">
-        ${sheet ? `<a class="btn" target="_blank" href="${escapeAttr(sheet)}">Open RSVP Sheet</a>` : '<span class="subtle">Add "adminSheetUrl" to settings to link your sheet.</span>'}
+        ${sheet ? `<a class="btn" target="_blank" href="${escapeAttr(sheet)}">Open Reference Sheet</a>` : '<span class="subtle">Add an optional "adminSheetUrl" in settings to quick-launch an external sheet.</span>'}
       </div>
     </section>
   `;

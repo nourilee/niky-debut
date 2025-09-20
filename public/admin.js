@@ -63,19 +63,31 @@ async function loadRSVPs(){
   if (!res.ok) throw new Error('unauthorized');
   const data = await res.json();
   const rsvps = Array.isArray(data.rsvps) ? data.rsvps : [];
-  rsvpTableBody.innerHTML = rsvps.map(r => `
+  rsvpTableBody.innerHTML = rsvps.map(r => {
+    const total = r.willAttend ? (Number(r.guests) || 0) : 0;
+    const kids = r.willAttend ? Math.max(0, Math.min(Number(r.kids) || 0, total)) : 0;
+    return `
     <tr>
       <td>${escapeHTML(r.name||'')}</td>
       <td>${r.willAttend ? 'Yes' : 'No'}</td>
-      <td>${r.willAttend ? (r.guests||1) : 0}</td>
+      <td>${total}</td>
+      <td>${kids}</td>
       <td class="muted">${escapeHTML(r.comments||'')}</td>
       <td class="muted">${escapeHTML(r.timestamp||'')}</td>
     </tr>
-  `).join('');
-  const guestCount = rsvps.reduce((sum, r) => sum + (r.willAttend ? (r.guests||1) : 0), 0);
+  `;
+  }).join('');
+  const guestCount = rsvps.reduce((sum, r) => sum + (r.willAttend ? (Number(r.guests) || 0) : 0), 0);
+  const kidCount = rsvps.reduce((sum, r) => {
+    if (!r.willAttend) return sum;
+    const total = Number(r.guests) || 0;
+    const kids = Math.max(0, Math.min(Number(r.kids) || 0, total));
+    return sum + kids;
+  }, 0);
+  const adultCount = Math.max(0, guestCount - kidCount);
   const cap = currentSettings && Number(currentSettings.capacityLimit);
   if (Number.isFinite(cap) && cap > 0) {
-    countBadge.textContent = `${guestCount} / ${cap} Guests Confirmed`;
+    countBadge.textContent = `Adults ${adultCount} • Kids ${kidCount} (Total ${guestCount} / ${cap})`;
     if (guestCount > cap) {
       countBadge.style.background = 'rgba(240,96,25,.18)';
       countBadge.style.borderColor = 'rgba(240,96,25,.35)';
@@ -86,7 +98,10 @@ async function loadRSVPs(){
       countBadge.style.color = '';
     }
   } else {
-    countBadge.textContent = `${guestCount} Guests Confirmed`;
+    countBadge.textContent = `Adults ${adultCount} • Kids ${kidCount} (Total ${guestCount})`;
+    countBadge.style.background = '';
+    countBadge.style.borderColor = '';
+    countBadge.style.color = '';
   }
   exportLink.href = '#';
   exportLink.onclick = (ev) => {

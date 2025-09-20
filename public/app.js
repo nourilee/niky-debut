@@ -172,7 +172,7 @@ function renderHome(el){
             <div class="hero-detail">
               <h3>RSVP DEADLINE</h3>
               <p>${rsvpBy || 'November 30, 2025'}</p>
-              <p class="detail-sub">Strict RSVP only: "No RSVP, no seat"</p>
+              <p class="detail-sub">Strictly RSVP. We regret that we cannot accommodate walk-ins without an RSVP.: "No RSVP, no seat"</p>
             </div>
             <div class="hero-detail">
               <h3>THEME</h3>
@@ -262,6 +262,15 @@ function renderRSVP(el){
             <option value="4">4</option>
             <option value="5">5</option>
           </select>
+          <label for="kids" class="mt-16">Number of kids (under 12)</label>
+          <select id="kids" name="kids" class="select-wide">
+            <option value="0" selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
         </div>
 
         <label for="comments" class="mt-16">Comments and/or questions</label>
@@ -276,6 +285,7 @@ function renderRSVP(el){
   const thanks = $('#rsvpThanks');
   const attendSel = $('#willAttend');
   const guestsWrap = $('#guestsWrap');
+  const kidsSel = $('#kids');
   let submitting = false;
   // Lock UI if past lock date
   const lock = settingsCache && settingsCache.rsvpLockDate && !isNaN(Date.parse(settingsCache.rsvpLockDate)) && Date.now() >= Date.parse(settingsCache.rsvpLockDate);
@@ -300,6 +310,7 @@ function renderRSVP(el){
       name: form.name.value.trim(),
       willAttend: form.willAttend.value === 'yes',
       guests: parseInt(form.guests.value, 10) || 1,
+      kids: parseInt((kidsSel && kidsSel.value) || '0', 10) || 0,
       comments: form.comments.value.trim(),
       hp: (document.getElementById('hp').value || '').trim()
     };
