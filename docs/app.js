@@ -5,7 +5,12 @@ const routes = {
   '/venue': renderVenue,
   '/roses': (el) => renderParticipants(el, 'roses', (settings && settings.rosesTitle) || 'The 18 Waltz of Flowers'),
   '/candles': (el) => renderParticipants(el, 'candles', (settings && settings.candlesTitle) || '18 Circle of Light'),
-  '/treasures': (el) => renderParticipants(el, 'treasures', (settings && settings.treasuresTitle) || '18 Treasures from the Heart'),
+  '/treasures': (el) => renderParticipants(
+    el,
+    'treasures',
+    (settings && settings.treasuresTitle) || '18 Treasures from the Heart',
+    "Every treasure holds a story, and every word carries wisdom. Our 18 treasures will present gifts filled with meaning, along with words of guidance — each moment kept brief and heartfelt."
+  ),
   '/admin': renderAdminInfo,
 };
 
@@ -148,7 +153,7 @@ function renderHome(el){
             </div>
             <div class="hero-detail">
               <h3>RSVP DEADLINE</h3>
-              <p>${rsvpBy || 'November 30, 2025'}</p>
+              <p>${rsvpBy || 'December 10, 2025'}</p>
               <p class="detail-sub">Strictly RSVP. We regret that we cannot accommodate walk-ins without an RSVP.: "No RSVP, no seat"</p>
             </div>
             <div class="hero-detail">
@@ -327,8 +332,16 @@ function renderVenue(el){
   `;
 }
 
-async function renderParticipants(el, key, title){
-  el.innerHTML = `<section class="card"><div class="section-title">${title}</div><ul id="plist" class="list mt-16"></ul></section>`;
+async function renderParticipants(el, key, title, caption){
+  const heading = escapeHTML(title || '');
+  const intro = caption ? `<p class="subtle mt-8">${escapeHTML(caption)}</p>` : '';
+  el.innerHTML = `
+    <section class="card">
+      <div class="section-title">${heading}</div>
+      ${intro}
+      <ul id="plist" class="list mt-16"></ul>
+    </section>
+  `;
   const listEl = $('#plist');
   try{
     const res = await fetch('./data/participants.json', { cache: 'no-cache' });
