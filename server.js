@@ -2,6 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const { google } = require('googleapis');
 
 // Load .env early so ADMIN_PASSWORD/PORT can be set via file without extra deps
 const root = __dirname;
@@ -32,6 +33,65 @@ const rsvpFile = path.join(dataDir, 'rsvps.json');
 const programFile = path.join(dataDir, 'program.json');
 const participantsFile = path.join(dataDir, 'participants.json');
 const settingsFile = path.join(dataDir, 'settings.json');
+
+const sheetsConfig = {
+  spreadsheetId: process.env.GOOGLE_SHEETS_ID,
+  range: process.env.GOOGLE_SHEETS_RANGE || 'RSVPs!A:G',
+  clientEmail: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+  privateKey: process.env.GOOGLE_PRIVATE_KEY,
+};
+
+let sheetsClientPromise = null;
+
+function googleSheetsEnabled() {
+  return Boolean(sheetsConfig.spreadsheetId && sheetsConfig.clientEmail && sheetsConfig.privateKey);
+}
+
+async function getSheetsClient() {
+  if (!googleSheetsEnabled()) return null;
+  if (!sheetsClientPromise) {
+    sheetsClientPromise = (async () => {
+      const auth = new google.auth.JWT(
+        sheetsConfig.clientEmail,
+        undefined,
+        (sheetsConfig.privateKey || '').replace(/\\n/g, '\n'),
+        ['https://www.googleapis.com/auth/spreadsheets']
+      );
+      return google.sheets({ version: 'v4', auth });
+    })().catch(err => {
+      sheetsClientPromise = null;
+      console.error('Failed to initialize Google Sheets client:', err.message || err);
+      throw err;
+    });
+  }
+  return sheetsClientPromise;
+}
+
+async function appendRsvpToGoogleSheet(entry) {
+  if (!googleSheetsEnabled()) return;
+  try {
+    const sheets = await getSheetsClient();
+    if (!sheets) return;
+    const values = [[
+      entry.timestamp,
+      entry.name,
+      entry.willAttend ? 'Yes' : 'No',
+      entry.guests,
+      entry.kids,
+      entry.comments || '',
+      entry.id,
+    ]];
+    await sheets.spreadsheets.values.append({
+      spreadsheetId: sheetsConfig.spreadsheetId,
+      range: sheetsConfig.range,
+      valueInputOption: 'USER_ENTERED',
+      insertDataOption: 'INSERT_ROWS',
+      requestBody: { values },
+    });
+  } catch (err) {
+    console.error('Failed to append RSVP to Google Sheet:', err.message || err);
+  }
+}
 
 function ensureDataFiles() {
   if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
@@ -206,6 +266,7 @@ function handleAPI(req, res) {
         } catch (_) {}
         list.push(entry);
         fs.writeFileSync(rsvpFile, JSON.stringify(list, null, 2));
+        appendRsvpToGoogleSheet(entry).catch(() => {});
         return sendJSON(res, 200, { ok: true, entry, warning });
       })
       .catch(() => sendJSON(res, 500, { error: 'Server error' }));

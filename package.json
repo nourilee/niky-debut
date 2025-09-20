@@ -5,5 +5,8 @@
   "type": "commonjs",
   "scripts": {
     "test": "node --test --test-threads=1"
+  },
+  "dependencies": {
+    "googleapis": "^118.0.0"
   }
 }
