@@ -3,7 +3,7 @@ const routes = {
   '/rsvp': renderRSVP,
   '/program': renderProgram,
   '/venue': renderVenue,
-  '/roses': (el) => renderParticipants(el, 'roses', (settings && settings.rosesTitle) || 'The 18 Waltz of Flowers'),
+  '/roses': (el) => renderParticipants(el, 'roses', (settings && settings.rosesTitle) || '18 Waltz of Flowers'),
   '/candles': (el) => renderParticipants(el, 'candles', (settings && settings.candlesTitle) || '18 Circle of Light'),
   '/treasures': (el) => renderParticipants(
     el,
@@ -202,6 +202,11 @@ function renderHome(el){
         ${(suggestedColors || attirePaletteImage) ? `<div class="card-footer attire-palette">${suggestedColors ? `<div class="attire-palette-text">Suggested colors: ${escapeHTML(suggestedColors)}</div>` : ''}${attirePaletteImage ? `<img class="attire-palette-img" src="${escapeHTML(attirePaletteImage)}" alt="Suggested color palette">` : ''}</div>` : ''}
       </div>
       ${giftNote ? `<div class="gift-note-footer subtle">${escapeHTML(giftNote)}</div>` : ''}
+      <div class="mt-24 contact-info">
+        <div><strong>Need help with your RSVP?</strong></div>
+        <div class="mt-8"><strong>Phone:</strong> <a href="tel:09156143858">09156143858</a> | <a href="tel:09060212223">09060212223</a></div>
+        <div class="mt-4"><strong>Facebook:</strong> Ryan Oyie | Rhean Nicoleen Santos</div>
+      </div>
     </section>
   `;
 }
@@ -231,7 +236,7 @@ function renderRSVP(el){
             <option value="no">No</option>
           </select>
           <div id="gwrap" class="mt-16">
-            <label for="guests">If yes, how many people (including yourself)?</label>
+            <label for="guests">If yes, how many people (age 12+, including yourself)?</label>
             <select id="guests" name="guests" class="select-wide">
               <option value="1">1</option>
               <option value="2">2</option>
@@ -273,6 +278,11 @@ function renderRSVP(el){
           })();
         </script>
       `}
+      <div class="mt-24 contact-info">
+        <div><strong>Need help with your RSVP?</strong></div>
+        <div class="mt-8"><strong>Phone:</strong> <a href="tel:09156143858">09156143858</a> | <a href="tel:09060212223">09060212223</a></div>
+        <div class="mt-4"><strong>Facebook:</strong> Ryan Oyie | Rhean Nicoleen Santos</div>
+      </div>
     </section>
   `;
 }
@@ -304,18 +314,35 @@ function renderVenue(el){
   const s = settings || {};
   const address = `${s.venueName || 'Venue'}${s.venueAddress ? ', ' + s.venueAddress : ''}`;
   const mapQuery = encodeURIComponent(s.mapQuery || address);
+  const attireTitle = (settings && settings.attireTitle) || null;
   el.innerHTML = `
     <section class="grid cols-2">
       <div class="card">
         <div class="section-title">Venue</div>
         <p class="subtle">${escapeHTML(address)}</p>
-        <p>${s.attireTitle ? `Attire: ${escapeHTML(s.attireTitle)}.` : ''} Parking available on-site.</p>
-        <a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=${mapQuery}">Open in Google Maps</a>
+        <p>Parking available on-site.</p>
+        <p class="mt-16">We highly recommend booking an overnight room early; only a few rooms are available. You can contact the venue directly or let us help you secure discounted rates.</p>
+        <ul class="list mt-16">
+          <li><strong>Budget Standard Room</strong> (good for 4 pax) - PHP 3,500<br><span class="subtle">Separate bathrooms.</span></li>
+          <li class="mt-8"><strong>Elegant Standard Room</strong> (4 rooms available, 4 pax each) - PHP 4,000 per room.</li>
+          <li class="mt-8"><strong>Duplex Room</strong> (2 rooms available, 6 pax each) - PHP 6,000 per room.</li>
+          <li class="mt-8"><strong>Family Room</strong> (2 rooms available, 8 pax each) - PHP 8,000 per room.</li>
+          <li class="mt-8"><strong>Dormitory Room</strong> (good for 16 pax) - PHP 16,000<br><span class="subtle">Separate bathroom.</span></li>
+        </ul>
+        <p class="mt-16 subtle">No free breakfast included.</p>
+        <p class="subtle">Check-in: 2:00 PM | Check-out: 12:00 NN the following day.</p>
       </div>
       <div class="card">
-        <iframe title="Venue Map" width="100%" height="320" style="border:0;border-radius:12px" loading="lazy" allowfullscreen
+        <img src="./venue.jpg" alt="Venue photo" style="width:100%;border-radius:12px;object-fit:cover;max-height:320px" loading="lazy" />
+        <iframe class="mt-16" title="Venue Map" width="100%" height="320" style="border:0;border-radius:12px" loading="lazy" allowfullscreen
           referrerpolicy="no-referrer-when-downgrade"
           src="https://www.google.com/maps?q=${mapQuery}&output=embed"></iframe>
+        <a class="btn mt-16" target="_blank" href="https://www.google.com/maps/search/?api=1&query=${mapQuery}">Open in Google Maps</a>
+      </div>
+      <div class="mt-24 contact-info">
+        <div><strong>Need help with your RSVP?</strong></div>
+        <div class="mt-8"><strong>Phone:</strong> <a href="tel:09156143858">09156143858</a> | <a href="tel:09060212223">09060212223</a></div>
+        <div class="mt-4"><strong>Facebook:</strong> Ryan Oyie | Rhean Nicoleen Santos</div>
       </div>
     </section>
   `;
@@ -355,6 +382,11 @@ function renderAdminInfo(el){
       </ul>
       <div class="mt-16">
         ${sheet ? `<a class="btn" target="_blank" href="${escapeAttr(sheet)}">Open Reference Sheet</a>` : '<span class="subtle">Add an optional "adminSheetUrl" in settings to quick-launch an external sheet.</span>'}
+      </div>
+      <div class="mt-24 contact-info">
+        <div><strong>Need help with your RSVP?</strong></div>
+        <div class="mt-8"><strong>Phone:</strong> <a href="tel:09156143858">09156143858</a> | <a href="tel:09060212223">09060212223</a></div>
+        <div class="mt-4"><strong>Facebook:</strong> Ryan Oyie | Rhean Nicoleen Santos</div>
       </div>
     </section>
   `;

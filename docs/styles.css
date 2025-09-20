@@ -674,6 +674,8 @@ body.nav-open .nav-toggle span:nth-child(3) {
 }
 .card-footer{margin-top:12px;padding-top:10px;border-top:1px dashed rgba(57,42,107,.2);color:var(--ink-muted);font-size:14px}
 .callout{border-left:4px solid var(--gold);box-shadow:inset 0 0 0 1px rgba(212,175,55,.2),0 4px 16px rgba(45,27,105,.08)}
+.contact-info a{color:inherit;font-weight:600;text-decoration:none}
+.contact-info a:hover{text-decoration:underline}
 .note{background:rgba(212,175,55,.08);border-color:rgba(201,169,110,.25)}
 
 /* Decorative divider */
