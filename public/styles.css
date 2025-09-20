@@ -836,6 +836,12 @@ button:hover::before,
 .table{width:100%;border-collapse:collapse}
 .table th,.table td{padding:10px;border-bottom:1px solid rgba(57,42,107,.12);text-align:left}
 .muted{opacity:.85}
+.table-action{background:rgba(74,60,107,.08);color:var(--deep-purple);border:1px solid rgba(74,60,107,.25);padding:6px 12px;border-radius:8px;font-size:13px;font-family:var(--font-ui);font-weight:500;box-shadow:none;animation:none;transition:background .25s ease,color .25s ease,border-color .25s ease;min-height:auto}
+.table-action:hover{background:rgba(74,60,107,.14);transform:none;box-shadow:none}
+.table-action::before{display:none}
+.table-action.danger{color:#5f1d00;border-color:rgba(240,96,25,.4);background:rgba(240,96,25,.12)}
+.table-action.danger:hover{background:rgba(240,96,25,.2)}
+.table-action.busy{opacity:.55;pointer-events:none}
 
 /* Corner florals */
 .hero .photo{width:180px;height:180px;border-radius:100%;object-fit:cover;border:4px solid rgba(255,255,255,.8);box-shadow:0 0 0 8px rgba(212,175,55,.15),0 12px 32px rgba(45,27,105,.25),inset 0 2px 4px rgba(255,255,255,.3);margin:12px auto 8px}

@@ -48,13 +48,14 @@ async function loadRSVPs(){
     const total = r.willAttend ? (Number(r.guests) || 0) : 0;
     const kids = r.willAttend ? Math.max(0, Math.min(Number(r.kids) || 0, total)) : 0;
     return `
-    <tr>
+    <tr data-rsvp-id="${escapeHTML(r.id || '')}">
       <td>${escapeHTML(r.name||'')}</td>
       <td>${r.willAttend ? 'Yes' : 'No'}</td>
       <td>${total}</td>
       <td>${kids}</td>
       <td class="muted">${escapeHTML(r.comments||'')}</td>
       <td class="muted">${escapeHTML(r.timestamp||'')}</td>
+      <td><button type="button" class="table-action danger" data-action="delete" data-id="${escapeHTML(r.id || '')}">Delete</button></td>
     </tr>
   `;
   }).join('');
@@ -104,4 +105,53 @@ async function downloadCSV(){
 
 function escapeHTML(str){
   return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
+}
+
+if (rsvpTableBody) {
+  rsvpTableBody.addEventListener('click', (event) => {
+    const button = event.target.closest('button[data-action="delete"]');
+    if (!button) return;
+    event.preventDefault();
+    handleDelete(button);
+  });
+}
+
+async function handleDelete(button){
+  if (!adminKey) { showToast('Sign in first', 'error'); return; }
+  const id = button.dataset.id;
+  if (!id) return;
+  const row = button.closest('tr');
+  const nameCell = row ? row.querySelector('td') : null;
+  const name = nameCell ? nameCell.textContent.trim() : '';
+  const label = name ? ` for ${name}` : '';
+  if (typeof confirm === 'function' && !confirm(`Delete RSVP${label}?`)) return;
+  button.disabled = true;
+  button.classList.add('busy');
+  button.textContent = 'Deleting…';
+  try {
+    const res = await fetch(`/api/rsvps/${encodeURIComponent(id)}`, {
+      method: 'DELETE',
+      headers: { 'X-Admin-Key': adminKey }
+    });
+    if (!res.ok) {
+      let message = 'Delete failed';
+      try {
+        const payload = await res.json();
+        if (payload && payload.error) message = payload.error;
+      } catch (_) {}
+      showToast(message, 'error');
+      return;
+    }
+    showToast('RSVP removed', 'success');
+    await loadRSVPs();
+  } catch (_) {
+    showToast('Network error while deleting', 'error');
+  } finally {
+    // If the element still exists (wasn't replaced by reload), restore button state
+    if (button.isConnected) {
+      button.disabled = false;
+      button.classList.remove('busy');
+      button.textContent = 'Delete';
+    }
+  }
 }

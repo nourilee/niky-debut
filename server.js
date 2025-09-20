@@ -133,7 +133,7 @@ function send(res, status, body, headers = {}) {
     'Content-Type': 'text/plain; charset=utf-8',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type, X-Admin-Key',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
   };
   res.writeHead(status, { ...defaultHeaders, ...headers });
   res.end(body);
@@ -203,6 +203,24 @@ function handleAPI(req, res) {
     if (!isAuthorized(req)) return unauthorized(res);
     const list = JSON.parse(fs.readFileSync(rsvpFile, 'utf8'));
     return sendJSON(res, 200, { rsvps: list });
+  }
+
+  if (req.method === 'DELETE' && pathname.startsWith('/api/rsvps/')) {
+    if (!isAuthorized(req)) return unauthorized(res);
+    let id;
+    try {
+      id = decodeURIComponent(pathname.slice('/api/rsvps/'.length));
+    } catch (_) {
+      return sendJSON(res, 400, { error: 'Invalid RSVP id' });
+    }
+    if (!id) return sendJSON(res, 400, { error: 'Missing RSVP id' });
+    let list = [];
+    try { list = JSON.parse(fs.readFileSync(rsvpFile, 'utf8')); } catch (_) {}
+    const index = list.findIndex(r => r && r.id === id);
+    if (index === -1) return sendJSON(res, 404, { error: 'RSVP not found' });
+    const [removed] = list.splice(index, 1);
+    fs.writeFileSync(rsvpFile, JSON.stringify(list, null, 2));
+    return sendJSON(res, 200, { ok: true, removedId: removed && removed.id ? removed.id : id });
   }
 
   // POST RSVP (guest)

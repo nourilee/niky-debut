@@ -87,7 +87,7 @@ test('RSVP stores kids count and caps at total guests', async () => {
   const future = new Date(Date.now() + 3600_000).toISOString();
   let res = await request(port, 'POST', '/api/settings', {
     headers: { 'Content-Type': 'application/json', 'X-Admin-Key': adminKey },
-    body: JSON.stringify({ rsvpLockDate: future })
+    body: JSON.stringify({ rsvpLockDate: future, capacityLimit: 0 })
   });
   assert.equal(res.status, 200);
 
@@ -108,7 +108,7 @@ test('Honeypot field causes RSVP to be ignored', async () => {
   const future = new Date(Date.now() + 3600_000).toISOString();
   let res = await request(port, 'POST', '/api/settings', {
     headers: { 'Content-Type': 'application/json', 'X-Admin-Key': adminKey },
-    body: JSON.stringify({ rsvpLockDate: future })
+    body: JSON.stringify({ rsvpLockDate: future, capacityLimit: 0 })
   });
   assert.equal(res.status, 200);
 
@@ -119,6 +119,44 @@ test('Honeypot field causes RSVP to be ignored', async () => {
   assert.equal(res.status, 200);
   const payload = JSON.parse(res.body);
   assert.equal(payload.ignored, true);
+});
+
+test('Admin can delete an RSVP entry by id', async () => {
+  const rsvpPath = path.join(__dirname, '..', 'data', 'rsvps.json');
+  try { fs.writeFileSync(rsvpPath, '[]', 'utf8'); } catch {}
+  const future = new Date(Date.now() + 7200_000).toISOString();
+  let res = await request(port, 'POST', '/api/settings', {
+    headers: { 'Content-Type': 'application/json', 'X-Admin-Key': adminKey },
+    body: JSON.stringify({ rsvpLockDate: future, capacityLimit: 0 })
+  });
+  assert.equal(res.status, 200);
+
+  res = await request(port, 'POST', '/api/rsvp', {
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: 'Removable', willAttend: true, guests: 2, kids: 1 })
+  });
+  assert.equal(res.status, 200);
+  const created = JSON.parse(res.body);
+  const id = created.entry && created.entry.id;
+  assert.ok(id, 'RSVP id should be present');
+
+  // Unauthorized deletion is blocked
+  res = await request(port, 'DELETE', `/api/rsvps/${encodeURIComponent(id)}`);
+  assert.equal(res.status, 401);
+
+  // Authorized deletion succeeds
+  res = await request(port, 'DELETE', `/api/rsvps/${encodeURIComponent(id)}`, {
+    headers: { 'X-Admin-Key': adminKey }
+  });
+  assert.equal(res.status, 200);
+  const deleted = JSON.parse(res.body);
+  assert.equal(deleted.ok, true);
+  assert.equal(deleted.removedId, id);
+
+  res = await request(port, 'GET', '/api/rsvps', { headers: { 'X-Admin-Key': adminKey } });
+  assert.equal(res.status, 200);
+  const finalList = JSON.parse(res.body);
+  assert.equal(Array.isArray(finalList.rsvps) ? finalList.rsvps.length : 0, 0);
 });
 
 // UI logic tests (no browser)
