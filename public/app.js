@@ -3,9 +3,9 @@ const routes = {
   '/rsvp': renderRSVP,
   '/program': renderProgram,
   '/venue': renderVenue,
-  '/roses': (el) => renderParticipants(el, 'roses', (settingsCache && settingsCache.rosesTitle) || 'The Waltz of Flowers'),
-  '/candles': (el) => renderParticipants(el, 'candles', (settingsCache && settingsCache.candlesTitle) || 'The Circle of Light'),
-  '/treasures': (el) => renderParticipants(el, 'treasures', (settingsCache && settingsCache.treasuresTitle) || 'The Keepsakes of Love'),
+  '/roses': (el) => renderParticipants(el, 'roses', (settingsCache && settingsCache.rosesTitle) || 'The 18 Waltz of Flowers'),
+  '/candles': (el) => renderParticipants(el, 'candles', (settingsCache && settingsCache.candlesTitle) || '18 Circle of Light'),
+  '/treasures': (el) => renderParticipants(el, 'treasures', (settingsCache && settingsCache.treasuresTitle) || '18 Treasures from the Heart'),
 };
 
 function $(sel, root=document){ return root.querySelector(sel); }
@@ -97,8 +97,8 @@ function applyNavLabels(){
   const s = settingsCache || {};
   const map = {
     '#/roses': s.rosesTitle || 'The Waltz of Wildflowers',
-    '#/candles': s.candlesTitle || 'The Circle of Light',
-    '#/treasures': s.treasuresTitle || 'The Keepsakes of Love',
+    '#/candles': s.candlesTitle || '18 Circle of Light',
+    '#/treasures': s.treasuresTitle || '18 Treasures from the Heart',
   };
   $all('a[data-route]').forEach(a => {
     const href = a.getAttribute('href');
@@ -118,8 +118,8 @@ async function navigate(){
   closeNavMenu();
   await ensureSettings(true);
   if (route === '/roses' && settingsCache.showRoses === false) return renderHiddenSection(el, settingsCache.rosesTitle || 'The Waltz of Wildflowers');
-  if (route === '/candles' && settingsCache.showCandles === false) return renderHiddenSection(el, settingsCache.candlesTitle || 'The Circle of Light');
-  if (route === '/treasures' && settingsCache.showTreasures === false) return renderHiddenSection(el, settingsCache.treasuresTitle || 'The Keepsakes of Love');
+  if (route === '/candles' && settingsCache.showCandles === false) return renderHiddenSection(el, settingsCache.candlesTitle || '18 Circle of Light');
+  if (route === '/treasures' && settingsCache.showTreasures === false) return renderHiddenSection(el, settingsCache.treasuresTitle || '18 Treasures from the Heart');
   routes[route](el);
   // highlight nav
   $all('a[data-route]').forEach(a => {

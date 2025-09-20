@@ -3,9 +3,9 @@ const routes = {
   '/rsvp': renderRSVP,
   '/program': renderProgram,
   '/venue': renderVenue,
-  '/roses': (el) => renderParticipants(el, 'roses', (settings && settings.rosesTitle) || 'The Waltz of Flowers'),
-  '/candles': (el) => renderParticipants(el, 'candles', (settings && settings.candlesTitle) || 'The Circle of Light'),
-  '/treasures': (el) => renderParticipants(el, 'treasures', (settings && settings.treasuresTitle) || 'The Keepsakes of Love'),
+  '/roses': (el) => renderParticipants(el, 'roses', (settings && settings.rosesTitle) || 'The 18 Waltz of Flowers'),
+  '/candles': (el) => renderParticipants(el, 'candles', (settings && settings.candlesTitle) || '18 Circle of Light'),
+  '/treasures': (el) => renderParticipants(el, 'treasures', (settings && settings.treasuresTitle) || '18 Treasures from the Heart'),
   '/admin': renderAdminInfo,
 };
 
@@ -97,8 +97,8 @@ async function navigate(){
   if (!settings) await loadSettings();
   applyNavLabels();
   if (route === '/roses' && settings.showRoses === false) return renderHiddenSection(el, settings.rosesTitle || 'The Waltz of Wildflowers');
-  if (route === '/candles' && settings.showCandles === false) return renderHiddenSection(el, settings.candlesTitle || 'The Circle of Light');
-  if (route === '/treasures' && settings.showTreasures === false) return renderHiddenSection(el, settings.treasuresTitle || 'The Keepsakes of Love');
+  if (route === '/candles' && settings.showCandles === false) return renderHiddenSection(el, settings.candlesTitle || '18 Circle of Light');
+  if (route === '/treasures' && settings.showTreasures === false) return renderHiddenSection(el, settings.treasuresTitle || '18 Treasures from the Heart');
   routes[route](el);
   $all('a[data-route]').forEach(a => {
     const active = a.getAttribute('href') === `#${route}`;
@@ -362,8 +362,8 @@ function applyNavLabels(){
   const s = settings || {};
   const map = {
     '#/roses': s.rosesTitle || 'The Waltz of Wildflowers',
-    '#/candles': s.candlesTitle || 'The Circle of Light',
-    '#/treasures': s.treasuresTitle || 'The Keepsakes of Love',
+    '#/candles': s.candlesTitle || '18 Circle of Light',
+    '#/treasures': s.treasuresTitle || '18 Treasures from the Heart',
   };
   $all('a[data-route]').forEach(a => {
     const href = a.getAttribute('href');
