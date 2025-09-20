@@ -155,8 +155,8 @@ function renderHome(el){
   const venueAddress = s.venueAddress || '';
   const rsvpBy = s.rsvpBy || '';
   const attireTitle = s.attireTitle || 'Attire';
-  const attireLadies = s.attireLadies || '';
-  const attireGentlemen = s.attireGentlemen || '';
+  const attireImage = s.attireImage || '/attire.png';
+  const attirePaletteImage = s.attirePaletteImage || '/color-palette.png';
   const giftNote = s.giftNote || '';
   const suggestedColors = s.suggestedColors || '';
   el.innerHTML = `
@@ -214,27 +214,15 @@ function renderHome(el){
       </div>
     </section>
     <div class="divider section-block"><span class="line"></span><img src="/sun.svg" alt="divider"/><span class="line"></span></div>
-    <section class="section-block grid cols-2 gap-lg">
+    <section class="section-block attire-section">
       <div class="card callout">
         <div class="section-title">Attire/Theme: ${escapeHTML(attireTitle)}</div>
-        <div class="grid cols-2">
-          <div>
-            ${(s.attireLadiesImage ? `<img class="attire-img" src="${escapeHTML(s.attireLadiesImage)}" alt="Ladies attire">` : `<div class="attire-img attire-placeholder">Ladies attire photo</div>`)}
-            <div><strong>For the ladies</strong></div>
-            <div class="subtle">${escapeHTML(attireLadies)}</div>
-          </div>
-          <div>
-            ${(s.attireGentlemenImage ? `<img class="attire-img" src="${escapeHTML(s.attireGentlemenImage)}" alt="Gentlemen attire">` : `<div class="attire-img attire-placeholder">Gentlemen attire photo</div>`)}
-            <div><strong>For the gentlemen</strong></div>
-            <div class="subtle">${escapeHTML(attireGentlemen)}</div>
-          </div>
-        ${suggestedColors ? `<div class="card-footer span-2">Suggested colors: ${escapeHTML(suggestedColors)}</div>`:''}
+        <div class="attire-visual">
+          <img class="attire-img" src="${escapeHTML(attireImage)}" alt="Suggested attire inspiration">
         </div>
+        ${(suggestedColors || attirePaletteImage) ? `<div class="card-footer attire-palette">${suggestedColors ? `<div class="attire-palette-text">Suggested colors: ${escapeHTML(suggestedColors)}</div>` : ''}${attirePaletteImage ? `<img class="attire-palette-img" src="${escapeHTML(attirePaletteImage)}" alt="Suggested color palette">` : ''}</div>` : ''}
       </div>
-      <div class="card note gift-note">
-        <div class="note-title section-title"><img src="/sun.svg" alt="sun"/> Gift Note</div>
-        <div class="subtle" style="white-space:pre-line">${escapeHTML(giftNote)}</div>
-      </div>
+      ${giftNote ? `<div class="gift-note-footer subtle">${escapeHTML(giftNote)}</div>` : ''}
     </section>
   `;
 }
