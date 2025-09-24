@@ -1,0 +1,36 @@
+name: Keep Render Service Awake
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # every 10 minutes (UTC)
+  workflow_dispatch: {}       # allow manual runs
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ping Render health endpoint
+        env:
+          URL: ${{ secrets.RENDER_PING_URL }}
+        run: |
+          if [ -z "$URL" ]; then
+            echo "RENDER_PING_URL secret is missing."
+            exit 1
+          fi
+
+          echo "Pinging $URL"
+          STATUS=$(curl -sS -o /dev/null -w "%{http_code}" \
+            --max-time 60 \
+            --retry 3 \
+            --retry-delay 5 \
+            -A "render-keepalive-bot/1.0" \
+            "$URL" || echo "000")
+
+          echo "HTTP status: $STATUS"
+          if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 400 ]; then
+            echo "Keepalive successful."
+          else
+            echo "Keepalive failed with status $STATUS"
+            exit 1
+          fi
