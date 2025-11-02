@@ -1,4 +1,4 @@
-# Niky Debut – Invitation + RSVP (Tangled Theme)
+# Nicoleen Debut – Invitation + RSVP (Tangled Theme)
 
 A simple, elegant web invitation with RSVP and an admin panel. No external dependencies required; ships with a tiny Node.js server that stores RSVP entries to `data/rsvps.json` and serves a static front‑end.
 

@@ -142,7 +142,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function renderHome(el){
   const s = settingsCache || {};
-  const title = s.title || "Niky's 18th Birthday";
+  const title = s.title || "Nicoleen's 18th Birthday";
   const inviteHeading = s.inviteHeading || '';
   const debutantePhotoUrl = s.debutantePhotoUrl || '';
   const subtitle = s.subtitle || 'A Tangled-inspired debut celebration under floating lanterns.';
