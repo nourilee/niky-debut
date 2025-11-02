@@ -1021,8 +1021,17 @@ button:hover::before,
 /* Attire showcase */
 .attire-section{display:flex;flex-direction:column;gap:16px}
 .attire-visual{display:flex;justify-content:center;margin-bottom:16px}
-.attire-img{width:100%;height:auto;display:block;border-radius:12px;object-fit:cover;border:1px solid rgba(57,42,107,.1);background:rgba(57,42,107,.04)}
-.attire-palette{display:flex;flex-direction:column;gap:12px}
+.attire-visual.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;justify-content:stretch;align-items:stretch}
+@media (max-width:780px){.attire-visual.grid{grid-template-columns:1fr}}
+.attire-img{width:100%;height:auto;display:block;border-radius:12px;object-fit:contain;object-position:center;border:1px solid rgba(57,42,107,.1);background:rgba(57,42,107,.04)}
+/* Keep paired attire images aligned and not too tall */
+.attire-visual.grid .attire-img{height:260px;object-fit:contain;object-position:center}
+@media (max-width:780px){.attire-visual.grid .attire-img{height:200px}}
+/* Single image variant: cap height so it doesn't overwhelm the section */
+.attire-visual:not(.grid) .attire-img{max-height:360px}
+@media (max-width:780px){.attire-visual:not(.grid) .attire-img{max-height:240px}}
+.attire-palette{display:flex;flex-direction:column;gap:12px;align-items:center}
 .attire-palette-text{font-size:15px;color:var(--ink-muted)}
-.attire-palette-img{width:100%;border-radius:12px;border:1px solid rgba(57,42,107,.1);background:#fff;box-shadow:0 6px 20px rgba(45,27,105,.08)}
+.attire-palette-img{width:70%;max-width:560px;height:auto;display:block;margin:0 auto;border-radius:12px;border:1px solid rgba(57,42,107,.1);background:#fff;box-shadow:0 6px 20px rgba(45,27,105,.08)}
+@media (max-width:780px){.attire-palette-img{width:85%;max-width:480px}}
 .gift-note-footer{font-size:12px;color:var(--ink-muted);opacity:.75;text-align:center;white-space:pre-line;margin-top:-4px}

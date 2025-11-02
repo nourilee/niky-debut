@@ -195,6 +195,7 @@ function renderHome(el){
   const rsvpBy = s.rsvpBy || '';
   const attireTitle = s.attireTitle || 'Attire';
   const attireImage = s.attireImage || '/attire.png';
+  const attireGuideImage = s.attireGuideImage || '/attire-guide.jpg';
   const attirePaletteImage = s.attirePaletteImage || '/color-palette.png';
   const giftNote = s.giftNote || '';
   const suggestedColors = s.suggestedColors || '';
@@ -285,8 +286,9 @@ function renderHome(el){
     <section class="section-block attire-section">
       <div class="card callout">
         <div class="section-title">Attire/Theme: ${escapeHTML(attireTitle)}</div>
-        <div class="attire-visual">
-          <img class="attire-img" src="${escapeHTML(attireImage)}" alt="Suggested attire inspiration">
+        <div class="attire-visual${attireGuideImage ? ' grid' : ''}">
+          ${attireImage ? `<img class="attire-img" src="${escapeHTML(attireImage)}" alt="Suggested attire inspiration" loading="lazy" onerror="this.style.display='none'">` : ''}
+          ${attireGuideImage ? `<img class="attire-img" src="${escapeHTML(attireGuideImage)}" alt="Attire guide" loading="lazy" onerror="this.style.display='none'">` : ''}
         </div>
         ${(suggestedColors || attirePaletteImage) ? `<div class="card-footer attire-palette">${suggestedColors ? `<div class="attire-palette-text">Suggested colors: ${escapeHTML(suggestedColors)}</div>` : ''}${attirePaletteImage ? `<img class="attire-palette-img" src="${escapeHTML(attirePaletteImage)}" alt="Suggested color palette">` : ''}</div>` : ''}
       </div>
