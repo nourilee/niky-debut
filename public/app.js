@@ -3,13 +3,51 @@ const routes = {
   '/rsvp': renderRSVP,
   '/program': renderProgram,
   '/venue': renderVenue,
-  '/roses': (el) => renderParticipants(el, 'roses', (settingsCache && settingsCache.rosesTitle) || '18 Waltz of Flowers'),
-  '/candles': (el) => renderParticipants(el, 'candles', (settingsCache && settingsCache.candlesTitle) || '18 Circle of Light'),
+  '/roses': (el) => renderParticipants(
+    el,
+    'roses',
+  (settingsCache && settingsCache.rosesTitle) || '18 Waltz of Flowers',
+  `To Our 18 Roses 🌹:
+You are among the special men in Nicoleen’s life who have offered her strength, love, and protection through the years.
+As one of her 18 Roses, you’ll have the honor of sharing a dance with her during this milestone celebration — a gesture of love, respect, and encouragement as she steps into womanhood.
+
+Be ready to own the spotlight and make the moment unforgettable!`
+    , 'letter'
+  ),
+  '/candles': (el) => renderParticipants(
+    el,
+    'candles',
+  (settingsCache && settingsCache.candlesTitle) || '18 Circle of Light',
+  `To Our 18 Lanterns 🕯️:
+
+“All those days watching from the windows, all those years outside looking in…”
+
+As Nicoleen enters this new chapter of her life, she will be surrounded by the glow of her guiding lights — you.
+You will walk with her — each bearing a lantern, that symbolizes your love and presence.
+During the celebration, you will be invited to share a short message, a spark of wisdom and warmth to illuminate her journey ahead.
+May your light remind her that she will never walk alone in the dark, for she carries your warmth wherever she goes.`
+    , 'letter'
+  ),
   '/treasures': (el) => renderParticipants(
     el,
     'treasures',
-    (settingsCache && settingsCache.treasuresTitle) || '18 Treasures from the Heart',
-    "Every treasure holds a story, and every word carries wisdom. Our 18 treasures will present gifts filled with meaning, along with words of guidance — each moment kept brief and heartfelt."
+  (settingsCache && settingsCache.treasuresTitle) || '18 Gifts of Grace',
+  `To Our Dear 18 Treasures 🎁,
+You have been chosen not only for your love and presence in Nicoleen’s life, but also for the faith, wisdom, and joy you’ve shared with her through the years.
+During the program, we invite you to present a gift or token of significance — it may be a keepsake, symbolic item, or monetary blessing — and to share briefly on stage the reason or meaning behind your chosen gift.
+Your presence and words will be among the evening’s most treasured moments.`
+    , 'letter'
+  ),
+  '/shots': (el) => renderParticipants(
+    el,
+    'shots',
+    '18 Cheers of Friendship',
+  `To Our 18 Shots 🍸:
+Get ready to raise your glass!
+As one of Nicoleen’s 18 Shots, you’ll take part in a lively and unforgettable moment — offering a fun toast, message, or cheer to celebrate her coming of age.
+You’ll help kick off the energy of the night and lead the way into her candle-blowing celebration.
+Feel free to make it lighthearted, witty, or sentimental — just make it you!`
+    , 'letter'
   ),
 };
 
@@ -101,9 +139,10 @@ function initFloatingElements(){
 function applyNavLabels(){
   const s = settingsCache || {};
   const map = {
-    '#/roses': s.rosesTitle || 'The Waltz of Wildflowers',
+    '#/roses': s.rosesTitle || '18 Waltz of Flowers',
     '#/candles': s.candlesTitle || '18 Circle of Light',
-    '#/treasures': s.treasuresTitle || '18 Treasures from the Heart',
+    '#/treasures': s.treasuresTitle || '18 Gifts of Grace',
+    '#/shots': s.shotsTitle || '18 Cheers of Friendship',
   };
   $all('a[data-route]').forEach(a => {
     const href = a.getAttribute('href');
@@ -122,9 +161,9 @@ async function navigate(){
   const el = document.getElementById('app');
   closeNavMenu();
   await ensureSettings(true);
-  if (route === '/roses' && settingsCache.showRoses === false) return renderHiddenSection(el, settingsCache.rosesTitle || 'The Waltz of Wildflowers');
+  if (route === '/roses' && settingsCache.showRoses === false) return renderHiddenSection(el, settingsCache.rosesTitle || '18 Waltz of Flowers');
   if (route === '/candles' && settingsCache.showCandles === false) return renderHiddenSection(el, settingsCache.candlesTitle || '18 Circle of Light');
-  if (route === '/treasures' && settingsCache.showTreasures === false) return renderHiddenSection(el, settingsCache.treasuresTitle || '18 Treasures from the Heart');
+  if (route === '/treasures' && settingsCache.showTreasures === false) return renderHiddenSection(el, settingsCache.treasuresTitle || '18 Gifts of Grace');
   routes[route](el);
   // highlight nav
   $all('a[data-route]').forEach(a => {
@@ -210,6 +249,35 @@ function renderHome(el){
           <div class="nav-card-title">Venue</div>
           <p class="nav-card-desc">Map and directions.</p>
           <a href="#/venue" class="nav-card-btn">Open</a>
+        </div>
+      </div>
+    </section>
+    <section class="section-block">
+      <div class="section-title">The 18s</div>
+      <div class="nav-cards eighteens-row">
+        <div class="nav-card">
+          <div class="nav-card-icon">🌸</div>
+          <div class="nav-card-title">18 Waltz of Flowers</div>
+          <p class="nav-card-desc">(The Traditional 18 Roses)</p>
+          <a href="#/roses" class="nav-card-btn">View List</a>
+        </div>
+        <div class="nav-card">
+          <div class="nav-card-icon">🕯️</div>
+          <div class="nav-card-title">18 Circle of Light</div>
+          <p class="nav-card-desc">(The 18 Lanterns)</p>
+          <a href="#/candles" class="nav-card-btn">View List</a>
+        </div>
+        <div class="nav-card">
+          <div class="nav-card-icon">🎁</div>
+          <div class="nav-card-title">18 Gifts of Grace</div>
+          <p class="nav-card-desc">(The 18 Treasures)</p>
+          <a href="#/treasures" class="nav-card-btn">View List</a>
+        </div>
+        <div class="nav-card">
+          <div class="nav-card-icon">🥂</div>
+          <div class="nav-card-title">18 Cheers of Friendship</div>
+          <p class="nav-card-desc">(The 18 Shots)</p>
+          <a href="#/shots" class="nav-card-btn">View List</a>
         </div>
       </div>
     </section>
@@ -390,9 +458,9 @@ function renderVenue(el){
   `;
 }
 
-async function renderParticipants(el, key, title, caption){
+async function renderParticipants(el, key, title, caption, captionClass){
   const heading = escapeHTML(title || '');
-  const intro = caption ? `<p class="subtle mt-8">${escapeHTML(caption)}</p>` : '';
+  const intro = caption ? `<p class="subtle mt-8 preline${captionClass ? ' ' + captionClass : ''}">${escapeHTML(caption)}</p>` : '';
   el.innerHTML = `
     <section class="card">
       <div class="section-title">${heading}</div>
