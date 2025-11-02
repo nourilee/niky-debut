@@ -99,14 +99,14 @@ function ensureDataFiles() {
   if (!fs.existsSync(programFile)) fs.writeFileSync(programFile, JSON.stringify({ items: [] }, null, 2));
   if (!fs.existsSync(participantsFile)) fs.writeFileSync(participantsFile, JSON.stringify({ roses: [], candles: [], treasures: [] }, null, 2));
   if (!fs.existsSync(settingsFile)) fs.writeFileSync(settingsFile, JSON.stringify({
-    title: "Niky's 18th Birthday",
+    title: "Nicoleen's 18th Birthday",
     subtitle: "A Tangled-inspired debut celebration under floating lanterns.",
     date: "March 15, 2025",
     time: "6:00 PM",
     rsvpBy: "December 10, 2025",
     rsvpLockDate: "2025-12-30T23:59:59+08:00",
     inviteHeading: "You Are Invited to a Night of Light and Wonder",
-    debutanteName: "Niky",
+  debutanteName: "Nicoleen",
     turningTagline: "is turning 18",
     suggestedColors: "soft gold, lavender, sage, dusty rose",
     attireTitle: "Whimsical Formal",
@@ -119,7 +119,7 @@ function ensureDataFiles() {
     showRoses: true,
     showCandles: true,
     showTreasures: true,
-    giftNote: "Your presence is the most precious gift of all.\nBut if you’re wondering what else to bring, Niky is building the first steps toward her dreams.\nMonetary gifts would be a thoughtful way to support her journey, as she saves for future adventures and grown-up goals.",
+  giftNote: "Your presence is the most precious gift of all.\nBut if you’re wondering what else to bring, Nicoleen is building the first steps toward her dreams.\nMonetary gifts would be a thoughtful way to support her journey, as she saves for future adventures and grown-up goals.",
     venueName: "The Sunflower Hall",
     venueAddress: "Manila",
     mapQuery: "The Sunflower Hall, Manila"
@@ -393,7 +393,7 @@ const server = http.createServer((req, res) => {
 
 if (require.main === module) {
   server.listen(PORT, () => {
-    console.log(`Niky Debut app running on http://localhost:${PORT}`);
+  console.log(`Nicoleen Debut app running on http://localhost:${PORT}`);
   });
 }
 
