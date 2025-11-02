@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "id": "mhh6bdyfa9k894",
+    "name": "A",
+    "willAttend": true,
+    "guests": 2,
+    "kids": 0,
+    "comments": "",
+    "timestamp": "2025-11-02T03:50:43.815Z"
+  },
+  {
+    "id": "mhh6bdyge4l2j4",
+    "name": "B",
+    "willAttend": true,
+    "guests": 1,
+    "kids": 0,
+    "comments": "",
+    "timestamp": "2025-11-02T03:50:43.816Z"
+  }
+]

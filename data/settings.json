@@ -4,7 +4,7 @@
   "date": "January 10, 2026",
   "time": "6:00 PM",
   "rsvpBy": "December 10, 2025",
-  "rsvpLockDate": "2025-12-30T23:59:59+08:00",
+  "rsvpLockDate": "2025-11-02T04:50:43.813Z",
   "inviteHeading": "You Are Invited to a Night of Light and Wonder",
   "debutanteName": "Niky",
   "turningTagline": "is turning 18",
@@ -25,6 +25,6 @@
   "venueAddress": "Brgy, J. Humarang St, Santa Rosa - Tagaytay Rd, Silang, Cavite",
   "mapQuery": "Teofely Gardens Wedding & Events Venue",
   "showRoses": false,
-  "showCandles": false,
+  "showCandles": true,
   "showTreasures": true
 }
