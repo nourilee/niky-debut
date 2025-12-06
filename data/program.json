@@ -1,3 +1,19 @@
 {
-  "items": []
+  "items": [
+    { "time": "4:30 PM", "title": "Arrival & Cocktails" },
+    { "time": "5:00 PM", "title": "Grand Entrance" },
+    { "time": "5:10 PM", "title": "Opening Remarks & Prayer" },
+    { "time": "5:20 PM", "title": "Game #1" },
+    { "time": "5:30 PM", "title": "18 Treasures" },
+    { "time": "5:50 PM", "title": "Buffet Open" },
+    { "time": "6:20 PM", "title": "Game #2" },
+    { "time": "6:30 PM", "title": "18 Lanterns" },
+    { "time": "7:00 PM", "title": "18 Roses" },
+    { "time": "7:20 PM", "title": "Game #3" },
+    { "time": "7:40 PM", "title": "18 Shots" },
+    { "time": "8:00 PM", "title": "Candle Blowing" },
+    { "time": "8:10 PM", "title": "Production Number" },
+    { "time": "8:20 PM", "title": "Closing Messages" },
+    { "time": "8:30 PM", "title": "Open Dance Floor" }
+  ]
 }

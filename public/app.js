@@ -404,7 +404,9 @@ async function renderProgram(el){
   const entourage = s.entourageTitle || '';
   const anyHidden = (s.showRoses === false) || (s.showCandles === false) || (s.showTreasures === false);
   const chip = anyHidden ? `<span class="pill" style="margin-left:8px">Not yet announced</span>` : '';
-  el.innerHTML = `<section class="card"><div class="section-title">Program ${chip}</div>${entourage?`<div class=\"mt-8 subtle\">${escapeHTML(entourage)}</div>`:''}<div id="programList" class="mt-16"></div></section>`;
+  const baseTitle = s.title || "Nicoleen's 18th Birthday";
+  const programTitle = (s.programTitle || `${baseTitle} Program`).trim();
+  el.innerHTML = `<section class="card"><div class="section-title">${escapeHTML(programTitle)} ${chip}</div>${entourage?`<div class=\"mt-8 subtle\">${escapeHTML(entourage)}</div>`:''}<div id="programList" class="mt-16"></div></section>`;
   const listEl = $('#programList');
   try{
     const res = await fetch('/api/program');
@@ -416,9 +418,9 @@ async function renderProgram(el){
     }
     listEl.innerHTML = `
       <table class="table">
-        <thead><tr><th style="width:140px">Time</th><th>Activity</th><th>Notes</th></tr></thead>
+        <thead><tr><th style="width:140px">Time</th><th>Activity</th></tr></thead>
         <tbody>
-          ${items.map(it => `<tr><td class="muted">${escapeHTML(it.time||'')}</td><td>${escapeHTML(it.title||'')}</td><td class="subtle">${escapeHTML(it.notes||'')}</td></tr>`).join('')}
+          ${items.map(it => `<tr><td class="muted">${escapeHTML(it.time||'')}</td><td>${escapeHTML(it.title||'')}</td></tr>`).join('')}
         </tbody>
       </table>
     `;

@@ -1,14 +1,20 @@
 {
   "items": [
-    { "time": "6:00 PM", "title": "Registration & Welcome Cocktails", "notes": "Photo wall open" },
-    { "time": "7:00 PM", "title": "Grand Entrance", "notes": "Debutante entrance" },
-    { "time": "7:15 PM", "title": "Opening Remarks & Prayer", "notes": "" },
-    { "time": "7:30 PM", "title": "Dinner", "notes": "Buffet opens" },
-    { "time": "8:15 PM", "title": "18 Roses", "notes": "Waltz" },
-    { "time": "8:45 PM", "title": "18 Candles", "notes": "Messages & wishes" },
-    { "time": "9:15 PM", "title": "18 Treasures", "notes": "Gift giving" },
-    { "time": "9:45 PM", "title": "Cake Cutting & Toast", "notes": "" },
-    { "time": "10:00 PM", "title": "Dance & Photo Ops", "notes": "Open floor" }
+    { "time": "4:30 PM", "title": "Arrival & Cocktails" },
+    { "time": "5:00 PM", "title": "Grand Entrance" },
+    { "time": "5:10 PM", "title": "Opening Remarks & Prayer" },
+    { "time": "5:20 PM", "title": "Game #1" },
+    { "time": "5:30 PM", "title": "18 Gifts of Grace" },
+    { "time": "5:50 PM", "title": "Dinner" },
+    { "time": "6:20 PM", "title": "Game #2" },
+    { "time": "6:30 PM", "title": "18 Circle of Light" },
+    { "time": "7:00 PM", "title": "18 Waltz of Flowers" },
+    { "time": "7:20 PM", "title": "Game #3" },
+    { "time": "7:40 PM", "title": "18 Sparks of Joy" },
+    { "time": "8:00 PM", "title": "Candle Blowing" },
+    { "time": "8:10 PM", "title": "Production Number" },
+    { "time": "8:20 PM", "title": "Closing Messages" },
+    { "time": "8:30 PM", "title": "Open Dance Floor" }
   ]
 }
 
